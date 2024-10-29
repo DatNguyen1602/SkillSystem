@@ -1,7 +1,6 @@
 package com.project.SkillSystem.Controller;
 
 import com.project.SkillSystem.Dto.Response.ApiResponse;
-import com.project.SkillSystem.Service.CertificateService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/s")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class CertificateController {
-    CertificateService certificateService;
+public class SkillController {
+    Service Service;
 
     @PostMapping("/add")
     ApiResponse<Response> create(@RequestBody @Valid Request Request) {
