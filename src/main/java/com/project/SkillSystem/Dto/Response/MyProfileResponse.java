@@ -2,10 +2,12 @@ package com.project.SkillSystem.Dto.Response;
 
 import com.project.SkillSystem.Entity.*;
 import com.project.SkillSystem.Enum.Profile.*;
+import jakarta.persistence.Transient;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -49,11 +51,11 @@ public class MyProfileResponse {
 
     List<Education> education;
 
-    List<Certificate> certificate;
+    Map<String, List<CertificateResponse>> certificateList;
+
+    Map<String, List<SkillResponse>> skillList;
 
     List<WorkExperience> workExperience;
-
-    List<Skill> skill;
 
     List<Language> language;
 
