@@ -1,11 +1,15 @@
 package com.project.SkillSystem.Service;
 
 import com.project.SkillSystem.Dto.Request.ProfileCreationRequest;
+import com.project.SkillSystem.Dto.Response.CertificateResponse;
 import com.project.SkillSystem.Dto.Response.MyProfileResponse;
 import com.project.SkillSystem.Dto.Response.ProfileResponse;
+import com.project.SkillSystem.Entity.CertCategory;
+import com.project.SkillSystem.Entity.Certificate;
 import com.project.SkillSystem.Entity.Profile;
 import com.project.SkillSystem.Entity.User;
 import com.project.SkillSystem.Enum.Profile.ProfileStatus;
+import com.project.SkillSystem.Mapper.CertificateMapper;
 import com.project.SkillSystem.Mapper.ProfileMapper;
 import com.project.SkillSystem.Repository.*;
 import lombok.AccessLevel;
@@ -17,7 +21,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +39,8 @@ public class ProfileService {
     SkillRepository skillRepository;
     LanguageRepository languageRepository;
     ProjectRepository projectRepository;
+    private final CertCategoryRepository certCategoryRepository;
+    private final CertificateMapper certificateMapper;
 
     public ProfileResponse createProfile(ProfileCreationRequest profileCreationRequest) {
         Profile profile = profileMapper.toProfile(profileCreationRequest);
@@ -73,12 +81,22 @@ public class ProfileService {
         Profile profile = profileRepository.findById(name).orElseThrow();
 
         profile.setEducation(educationRepository.findByProfileId(name));
-
-        profile.setSkill(skillRepository.findByProfileId(name));
-        profile.setCertificate(certificateRepository.findByProfileId(name));
         profile.setWorkExperience(workExperienceRepository.findByProfileId(name));
         profile.setLanguage(languageRepository.findByProfileId(name));
         profile.setProject(projectRepository.findByProfileId(name));
+
+        List<Certificate> certificates = certificateRepository.findByProfileId(name);
+        List<CertCategory> certCategories = certCategoryRepository.findAll();
+
+        Map<String, List<CertificateResponse>> certificateList =
+                certCategories.stream().collect(Collectors.toMap(
+                        CertCategory::getName,
+                        Category -> certificates.stream()
+                                .filter(cert -> cert.getCertCategoryId().equals(Category.getId()))
+                                .map(certificateMapper::toCertificateResponse)
+                                .collect(Collectors.toList())
+                ));
+        profile.setCertificateList(certificateList);
 
         return profileMapper.toMyProfileResponse(profile);
     }
