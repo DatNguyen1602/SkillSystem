@@ -4,13 +4,12 @@ import com.project.SkillSystem.Dto.Request.ProfileCreationRequest;
 import com.project.SkillSystem.Dto.Response.CertificateResponse;
 import com.project.SkillSystem.Dto.Response.MyProfileResponse;
 import com.project.SkillSystem.Dto.Response.ProfileResponse;
-import com.project.SkillSystem.Entity.CertCategory;
-import com.project.SkillSystem.Entity.Certificate;
-import com.project.SkillSystem.Entity.Profile;
-import com.project.SkillSystem.Entity.User;
+import com.project.SkillSystem.Dto.Response.SkillResponse;
+import com.project.SkillSystem.Entity.*;
 import com.project.SkillSystem.Enum.Profile.ProfileStatus;
 import com.project.SkillSystem.Mapper.CertificateMapper;
 import com.project.SkillSystem.Mapper.ProfileMapper;
+import com.project.SkillSystem.Mapper.SkillMapper;
 import com.project.SkillSystem.Repository.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +38,10 @@ public class ProfileService {
     SkillRepository skillRepository;
     LanguageRepository languageRepository;
     ProjectRepository projectRepository;
-    private final CertCategoryRepository certCategoryRepository;
-    private final CertificateMapper certificateMapper;
+    CertCategoryRepository certCategoryRepository;
+    CertificateMapper certificateMapper;
+    SkillCategoryRepository skillCategoryRepository;
+    SkillMapper skillMapper;
 
     public ProfileResponse createProfile(ProfileCreationRequest profileCreationRequest) {
         Profile profile = profileMapper.toProfile(profileCreationRequest);
@@ -97,6 +98,19 @@ public class ProfileService {
                                 .collect(Collectors.toList())
                 ));
         profile.setCertificateList(certificateList);
+
+        List<Skill> skills = skillRepository.findByProfileId(name);
+        List<SkillCategory> skillCategories = skillCategoryRepository.findAll();
+
+        Map<String, List<SkillResponse>> skillList =
+                skillCategories.stream().collect(Collectors.toMap(
+                        SkillCategory::getTitle,
+                        Category -> skills.stream()
+                                .filter(skill -> skill.getSkillCategoryId().equals(Category.getId()))
+                                .map(skillMapper::toSkillResponse)
+                                .collect(Collectors.toList())
+                ));
+        profile.setSkillList(skillList);
 
         return profileMapper.toMyProfileResponse(profile);
     }
