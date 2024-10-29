@@ -60,7 +60,7 @@ public class ProfileService {
     }
 
     public List<ProfileResponse> getAllProfile() {
-        return  profileRepository.findAll()
+        return profileRepository.findAll()
                 .stream()
                 .map(profileMapper::toProfileResponse)
                 .toList();
@@ -73,6 +73,8 @@ public class ProfileService {
         Profile profile = profileRepository.findById(name).orElseThrow();
 
         profile.setEducation(educationRepository.findByProfileId(name));
+
+        profile.setSkill(skillRepository.findByProfileId(name));
         profile.setCertificate(certificateRepository.findByProfileId(name));
         profile.setWorkExperience(workExperienceRepository.findByProfileId(name));
         profile.setLanguage(languageRepository.findByProfileId(name));

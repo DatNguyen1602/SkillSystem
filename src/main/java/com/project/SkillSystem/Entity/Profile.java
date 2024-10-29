@@ -1,11 +1,14 @@
 package com.project.SkillSystem.Entity;
 
+import com.project.SkillSystem.Dto.Response.CertificateResponse;
+import com.project.SkillSystem.Dto.Response.SkillResponse;
 import com.project.SkillSystem.Enum.Profile.*;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -58,16 +61,28 @@ public class Profile {
 
     String ldap;
 
+    @Transient
     List<Education> education;
 
+    @Transient
     List<Certificate> certificate;
 
+    @Transient
+    Map<String, List<CertificateResponse>> certificateList;
+
+    @Transient
     List<WorkExperience> workExperience;
 
+    @Transient
     List<Skill> skill;
 
+    @Transient
+    Map<String, List<SkillResponse>> skillList;
+
+    @Transient
     List<Language> language;
 
+    @Transient
     List<Project> project;
 
 }
