@@ -3,12 +3,14 @@ package com.project.SkillSystem.Service;
 import com.project.SkillSystem.Dto.Request.UserCreationRequest;
 import com.project.SkillSystem.Dto.Request.UserUpdateRequest;
 import com.project.SkillSystem.Dto.Response.UserResponse;
+import com.project.SkillSystem.Entity.Profile;
 import com.project.SkillSystem.Entity.User;
 import com.project.SkillSystem.Enum.User.UserStatus;
 import com.project.SkillSystem.Exception.AppException;
 import com.project.SkillSystem.Exception.ErrorCode;
+import com.project.SkillSystem.Mapper.ProfileMapper;
 import com.project.SkillSystem.Mapper.UserMapper;
-import com.project.SkillSystem.Repository.UserRepository;
+import com.project.SkillSystem.Repository.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,12 +18,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
+
+    ProfileRepository profileRepository;
+    EducationRepository educationRepository;
+    CertificateRepository certificateRepository;
+    WorkExperienceRepository workExperienceRepository;
+    SkillRepository skillRepository;
+    LanguageRepository languageRepository;
+    ProjectRepository projectRepository;
+
     PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserCreationRequest userCreationRequest) {
@@ -55,6 +68,17 @@ public class UserService {
     }
 
     public void deleteUser(String ldap) {
+        Optional<Profile> profile = profileRepository.findById(ldap);
+        if(profile.isPresent()) {
+            educationRepository.deleteByProfileId(ldap);
+            certificateRepository.deleteByProfileId(ldap);
+            workExperienceRepository.deleteByProfileId(ldap);
+            languageRepository.deleteByProfileId(ldap);
+            projectRepository.deleteByProfileId(ldap);
+            skillRepository.deleteByProfileId(ldap);
+            profileRepository.deleteById(ldap);
+        }
+
         userRepository.deleteById(ldap);
     }
 

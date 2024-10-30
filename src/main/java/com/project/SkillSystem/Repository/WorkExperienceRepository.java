@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface WorkExperienceRepository extends JpaRepository<WorkExperience,Long> {
     List<WorkExperience> findByProfileId(String profileId);
+
+    void deleteByProfileId(String profileId);
 }

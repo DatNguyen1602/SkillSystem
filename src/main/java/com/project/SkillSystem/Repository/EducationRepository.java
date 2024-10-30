@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface EducationRepository extends JpaRepository<Education, Long> {
     List<Education> findByProfileId(String profileId);
+
+    void deleteByProfileId(String profileId);
 }

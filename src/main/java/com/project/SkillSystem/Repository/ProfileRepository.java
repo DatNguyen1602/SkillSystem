@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface ProfileRepository extends JpaRepository<Profile, String> {
     boolean exsistsByLdap(String ldap);
+
+    void deleteByLdap(String ldap);
 }

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SkillRepository extends JpaRepository<Skill, Long> {
     List<Skill> findByProfileId(String profileId);
+
+    void deleteByProfileId(String profileId);
 }
