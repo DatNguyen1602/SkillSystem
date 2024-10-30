@@ -24,6 +24,15 @@ public class WorkExperienceService {
          return workExperienceMapper.toWorkExperienceResponse(workExperienceRepository.save(workExperience));
     }
 
+    public WorkExperienceResponse updateWorkExperience(Long id, WorkExperienceRequest workExperienceRequest) {
+        WorkExperience workExperience = workExperienceRepository.findById(id)
+                .orElseThrow(() ->new RuntimeException("Work Experience not existed"));
+
+        workExperienceMapper.updateWorkExperience(workExperience, workExperienceRequest);
+
+        return workExperienceMapper.toWorkExperienceResponse(workExperienceRepository.save(workExperience));
+    }
+
     public void deleteWorkExperience(Long id) {
         workExperienceRepository.deleteById(id);
     }

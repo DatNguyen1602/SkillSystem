@@ -5,6 +5,8 @@ import com.project.SkillSystem.Dto.Request.UserUpdateRequest;
 import com.project.SkillSystem.Dto.Response.UserResponse;
 import com.project.SkillSystem.Entity.User;
 import com.project.SkillSystem.Enum.User.UserStatus;
+import com.project.SkillSystem.Exception.AppException;
+import com.project.SkillSystem.Exception.ErrorCode;
 import com.project.SkillSystem.Mapper.UserMapper;
 import com.project.SkillSystem.Repository.UserRepository;
 import lombok.AccessLevel;
@@ -45,7 +47,7 @@ public class UserService {
     }
 
     public UserResponse updateUser(String ldap, UserUpdateRequest userUpdateRequest) {
-        User user = userRepository.findbyLdap(ldap).orElseThrow(() -> new App);
+        User user = userRepository.findbyLdap(ldap).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         userMapper.updateUser(user, userUpdateRequest);
 
         return userMapper.toUserResponse(userRepository.save(user));
@@ -92,7 +94,7 @@ public class UserService {
                 uppercaseLetters.append(ch);
             }
         }
-        return uppercaseLetters.toString()
+        return uppercaseLetters.toString();
     }
 
     protected String generateUniqueLdap(String baseId) {
