@@ -1,6 +1,7 @@
 package com.project.SkillSystem.Service;
 
 import com.project.SkillSystem.Dto.Request.ProfileCreationRequest;
+import com.project.SkillSystem.Dto.Request.ProfileUpdaterequest;
 import com.project.SkillSystem.Dto.Response.CertificateResponse;
 import com.project.SkillSystem.Dto.Response.MyProfileResponse;
 import com.project.SkillSystem.Dto.Response.ProfileResponse;
@@ -122,13 +123,23 @@ public class ProfileService {
         Profile profile = profileRepository.findById(id)
                 .orElseThrow(() ->new AppException(ErrorCode.PROFILE_NOT_EXISTED));
 
-        profile.setEducation(educationRepository.findByProfileId(id));
-        profile.setCertificate(certificateRepository.findByProfileId(id));
-        profile.setWorkExperience(workExperienceRepository.findByProfileId(id));
-        profile.setLanguage(languageRepository.findByProfileId(id));
-        profile.setProject(projectRepository.findByProfileId(id));
+//        profile.setEducation(educationRepository.findByProfileId(id));
+//        profile.setCertificate(certificateRepository.findByProfileId(id));
+//        profile.setWorkExperience(workExperienceRepository.findByProfileId(id));
+//        profile.setLanguage(languageRepository.findByProfileId(id));
+//        profile.setProject(projectRepository.findByProfileId(id));
 
         return profileMapper.toMyProfileResponse(profile);
+    }
+
+    public ProfileResponse updateProfile(String id, ProfileUpdaterequest profileUpdateRequest) {
+        Profile profile = profileRepository.findById(id).orElseThrow(() ->new AppException(ErrorCode.PROFILE_NOT_EXISTED));
+
+        profileMapper.updateProfile(profile, profileUpdateRequest);
+
+        profile.setLastUpdate(LocalDateTime.now().toString());
+
+        return profileMapper.toProfileResponse(profileRepository.save(profile));
     }
 
     public void deleteProfile(String id) {
