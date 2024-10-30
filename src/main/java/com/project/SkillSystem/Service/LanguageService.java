@@ -25,7 +25,7 @@ public class LanguageService {
         return languageMapper.toLanguageResponse(languageRepository.save(language));
     }
 
-    public LanguageResponse updateLanguageById(Long id, LanguageRequest languageRequest) {
+    public LanguageResponse updateLanguage(Long id, LanguageRequest languageRequest) {
         Language language = languageRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.LANGUAGE_NOT_EXISTED));
 
