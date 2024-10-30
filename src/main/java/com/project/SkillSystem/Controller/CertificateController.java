@@ -25,7 +25,7 @@ public class CertificateController {
     }
 
     @PutMapping("/update/{id}")
-    ApiResponse<CertificateResponse> updateCertificate(@PathVariable Long id, CertificateRequest certificateequest) {
+    ApiResponse<CertificateResponse> updateCertificate(@PathVariable Long id, CertificateRequest certificateRequest) {
         return ApiResponse.<CertificateResponse>builder()
                 .result(certificateService.updateCertificate(id, certificateRequest))
                 .build();
