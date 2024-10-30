@@ -41,7 +41,8 @@ public class SecurityConfig {
         );
 
         httpSecurity.oauth2ResourceServer(
-                oath2 -> oath2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
+                oath2 -> oath2.jwt(
+                        jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
         );
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
