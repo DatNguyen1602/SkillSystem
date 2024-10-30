@@ -3,6 +3,8 @@ package com.project.SkillSystem.Service;
 import com.project.SkillSystem.Dto.Request.LanguageRequest;
 import com.project.SkillSystem.Dto.Response.LanguageResponse;
 import com.project.SkillSystem.Entity.Language;
+import com.project.SkillSystem.Exception.AppException;
+import com.project.SkillSystem.Exception.ErrorCode;
 import com.project.SkillSystem.Mapper.LanguageMapper;
 import com.project.SkillSystem.Repository.LanguageRepository;
 import lombok.AccessLevel;
@@ -19,6 +21,15 @@ public class LanguageService {
 
     public LanguageResponse createLanguage(LanguageRequest languageRequest) {
         Language language = languageMapper.toLanguage(languageRequest);
+
+        return languageMapper.toLanguageResponse(languageRepository.save(language));
+    }
+
+    public LanguageResponse updateLanguageById(Long id, LanguageRequest languageRequest) {
+        Language language = languageRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.LANGUAGE_NOT_EXISTED));
+
+        languageMapper.updateLanguage(language, languageRequest);
 
         return languageMapper.toLanguageResponse(languageRepository.save(language));
     }

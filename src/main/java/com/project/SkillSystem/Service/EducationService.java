@@ -3,6 +3,8 @@ package com.project.SkillSystem.Service;
 import com.project.SkillSystem.Dto.Request.EducationRequest;
 import com.project.SkillSystem.Dto.Response.EducationResponse;
 import com.project.SkillSystem.Entity.Education;
+import com.project.SkillSystem.Exception.AppException;
+import com.project.SkillSystem.Exception.ErrorCode;
 import com.project.SkillSystem.Mapper.EducationMapper;
 import com.project.SkillSystem.Repository.EducationRepository;
 import lombok.AccessLevel;
@@ -24,7 +26,8 @@ public class EducationService {
     }
 
     public EducationResponse updateEducation(Long id, EducationRequest educationRequest){
-        Education education = educationRepository.findById(id).orElseThrow();
+        Education education = educationRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.EDUCATION_NOT_EXISTED));
 
         educationMapper.updateEducation(education, educationRequest);
 

@@ -7,6 +7,8 @@ import com.project.SkillSystem.Dto.Response.ProfileResponse;
 import com.project.SkillSystem.Dto.Response.SkillResponse;
 import com.project.SkillSystem.Entity.*;
 import com.project.SkillSystem.Enum.Profile.ProfileStatus;
+import com.project.SkillSystem.Exception.AppException;
+import com.project.SkillSystem.Exception.ErrorCode;
 import com.project.SkillSystem.Mapper.CertificateMapper;
 import com.project.SkillSystem.Mapper.ProfileMapper;
 import com.project.SkillSystem.Mapper.SkillMapper;
@@ -57,7 +59,7 @@ public class ProfileService {
             String lastName = user.get().getLastName();
             profile.setFullName(firstName + ". " + lastName);
         } else {
-            String errorMessage = "Không tìm thấy Ủ với Ldap: " + profile.getId();
+            String errorMessage = "Không tìm thấy User với Ldap: " + profile.getId();
             throw new IllegalArgumentException(errorMessage);
         }
         profile.setAvailableTime(LocalDate.now().toString());
@@ -79,7 +81,8 @@ public class ProfileService {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
-        Profile profile = profileRepository.findById(name).orElseThrow();
+        Profile profile = profileRepository.findById(name)
+                .orElseThrow(() ->new AppException(ErrorCode.PROFILE_NOT_EXISTED));
 
         profile.setEducation(educationRepository.findByProfileId(name));
         profile.setWorkExperience(workExperienceRepository.findByProfileId(name));
@@ -116,7 +119,8 @@ public class ProfileService {
     }
 
     public MyProfileResponse getMyProfileById(String id) {
-        Profile profile = profileRepository.findById(id).orElseThrow();
+        Profile profile = profileRepository.findById(id)
+                .orElseThrow(() ->new AppException(ErrorCode.PROFILE_NOT_EXISTED));
 
         profile.setEducation(educationRepository.findByProfileId(id));
         profile.setCertificate(certificateRepository.findByProfileId(id));
@@ -128,6 +132,7 @@ public class ProfileService {
     }
 
     public void deleteProfile(String id) {
+
         profileRepository.deleteById(id);
     }
 }
