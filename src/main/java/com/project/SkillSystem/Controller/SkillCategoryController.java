@@ -1,6 +1,9 @@
 package com.project.SkillSystem.Controller;
 
+import com.project.SkillSystem.Dto.Request.SkillCategoryRequest;
 import com.project.SkillSystem.Dto.Response.ApiResponse;
+import com.project.SkillSystem.Dto.Response.SkillCategoryResponse;
+import com.project.SkillSystem.Service.SkillCategoryService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -8,29 +11,22 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/s")
+@RequestMapping("/skillCategories")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SkillCategoryController {
-    Service Service;
+    SkillCategoryService skillCategoryService;
 
     @PostMapping("/add")
-    ApiResponse<Response> create(@RequestBody @Valid Request Request) {
-        return ApiResponse.<Response>builder()
-                .result(Service.create(Request))
-                .build();
-    }
-
-    @PutMapping("/update/{id}")
-    ApiResponse<Response> update(@PathVariable Long id, Request Request) {
-        return ApiResponse.<Response>builder()
-                .result(Service.update(id, Request))
+    ApiResponse<SkillCategoryResponse> createSkillCategory(@RequestBody @Valid SkillCategoryRequest skillCategoryRequest) {
+        return ApiResponse.<SkillCategoryResponse>builder()
+                .result(skillCategoryService.createSkillCategory(skillCategoryRequest))
                 .build();
     }
 
     @DeleteMapping("/delete/{id}")
-    ApiResponse<String> delete(@PathVariable Long id) {
-        Service.delete(id);
+    ApiResponse<String> deleteSkillCategory(@PathVariable Long id) {
+        skillCategoryService.deleteSkillCategory(id);
         return ApiResponse.<String>builder()
                 .result(" has been deleted")
                 .build();
