@@ -1,5 +1,5 @@
 server:
-  port =1234
+  port: 1234
 
 spring:
   datasource:
@@ -10,3 +10,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+jwt:
+  signerKey: "Mt9ot83HH0WQPSxFfFN1tMRSYaPe7mFbq5mqZEMVgpubEZo6TjRNeXseLlLxUbhM"
