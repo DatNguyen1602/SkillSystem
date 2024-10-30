@@ -28,7 +28,7 @@ public class EducationService {
 
         educationMapper.updateEducation(education, educationRequest);
 
-        return educationMapper
+        return educationMapper.toEducationResponse(educationRepository.save(education));
     }
 
     public void deleteEducation(Long id) {
