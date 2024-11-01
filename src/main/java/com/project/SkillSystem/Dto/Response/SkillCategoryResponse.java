@@ -12,6 +12,4 @@ public class SkillCategoryResponse {
     Long id;
 
     String title;
-
-    String description;
 }

@@ -1,4 +1,4 @@
-package com.project.SkillSystem.Dto.Request;
+package com.project.SkillSystem.Dto.Response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SkillCategoryRequest {
-    String title;
+public class SkillNameResponse {
+    Long id;
 
-    String description;
+    String name;
 }

@@ -1,6 +1,5 @@
 package com.project.SkillSystem.Controller;
 
-import com.project.SkillSystem.Dto.Request.SkillCategoryRequest;
 import com.project.SkillSystem.Dto.Response.ApiResponse;
 import com.project.SkillSystem.Dto.Response.SkillCategoryResponse;
 import com.project.SkillSystem.Service.SkillCategoryService;

@@ -13,7 +13,6 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Skill {
 
@@ -21,9 +20,7 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Long skillCategoryId;
-
-    String name;
+    Long skillNameId;
 
     @Enumerated(EnumType.STRING)
     SkillLevel level;

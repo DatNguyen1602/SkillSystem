@@ -1,6 +1,5 @@
 package com.project.SkillSystem.Service;
 
-import com.project.SkillSystem.Dto.Request.SkillCategoryRequest;
 import com.project.SkillSystem.Dto.Response.SkillCategoryResponse;
 import com.project.SkillSystem.Entity.SkillCategory;
 import com.project.SkillSystem.Mapper.SkillCategoryMapper;
