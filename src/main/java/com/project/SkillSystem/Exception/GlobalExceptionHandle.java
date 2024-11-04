@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandle {
@@ -49,15 +50,14 @@ public class GlobalExceptionHandle {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
-        }
+    public ResponseEntity<ApiResponse> handleValidationExceptions(MethodArgumentNotValidException exception) {
+        String errors = exception.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() +", "+ error.getDefaultMessage())
+                .collect(Collectors.joining());
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .code(ErrorCode.INVALID_KEY.getCode())
-                .message("Validation failed")
+                .message(errors)
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
