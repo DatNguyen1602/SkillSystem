@@ -12,9 +12,7 @@ import java.util.Date;
 public class SkillResponse {
     Long id;
 
-    Long skillCategoryId;
-
-    String name;
+    Long skillNameId;
 
     SkillLevel level;
 

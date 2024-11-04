@@ -10,9 +10,7 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SkillRequest {
-    Long skillCategoryId;
-
-    String name;
+    Long skillNameId;
 
     SkillLevel level;
 
