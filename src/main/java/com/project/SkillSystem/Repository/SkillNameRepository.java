@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface SkillNameRepository extends JpaRepository<SkillName, Long> {
     Optional<SkillName> findById(Long id);
-    List<SkillName> findBySkillCategoryId(String skillCategoryId);
+    List<SkillName> findBySkillCategoryId(Long skillCategoryId);
 }

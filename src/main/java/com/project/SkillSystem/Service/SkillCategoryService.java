@@ -16,11 +16,11 @@ public class SkillCategoryService {
     SkillCategoryRepository skillCategoryRepository;
     SkillCategoryMapper skillCategoryMapper;
 
-    public SkillCategoryResponse createSkillCategory(SkillCategoryRequest skillCategoryRequest) {
-        SkillCategory skillCategory = skillCategoryMapper.toSkillCategory(skillCategoryRequest);
-
-         return skillCategoryMapper.toSkillCategoryResponse(skillCategoryRepository.save(skillCategory));
-    }
+//    public SkillCategoryResponse createSkillCategory(SkillCategoryRequest skillCategoryRequest) {
+//        SkillCategory skillCategory = skillCategoryMapper.toSkillCategory(skillCategoryRequest);
+//
+//         return skillCategoryMapper.toSkillCategoryResponse(skillCategoryRepository.save(skillCategory));
+//    }
 
     public void deleteSkillCategory(Long id) {
         skillCategoryRepository.deleteById(id);

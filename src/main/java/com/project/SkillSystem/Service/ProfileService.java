@@ -5,7 +5,6 @@ import com.project.SkillSystem.Dto.Request.ProfileUpdaterequest;
 import com.project.SkillSystem.Dto.Response.CertificateResponse;
 import com.project.SkillSystem.Dto.Response.MyProfileResponse;
 import com.project.SkillSystem.Dto.Response.ProfileResponse;
-import com.project.SkillSystem.Dto.Response.SkillResponse;
 import com.project.SkillSystem.Entity.*;
 import com.project.SkillSystem.Enum.Profile.ProfileStatus;
 import com.project.SkillSystem.Exception.AppException;
@@ -50,12 +49,12 @@ public class ProfileService {
     public ProfileResponse createProfile(ProfileCreationRequest profileCreationRequest) {
         Profile profile = profileMapper.toProfile(profileCreationRequest);
 
-        if (profileRepository.exsistsByLdap(profileCreationRequest.getLdap()))
-            throw new RuntimeException("profile existed");
+//        if (profileRepository.exsistsByLdap(profileCreationRequest.getLdap()))
+//            throw new RuntimeException("profile existed");
 
         profile.setId(profileCreationRequest.getLdap());
 
-        Optional<User> user = userRepository.findbyLdap(profile.getId());
+        Optional<User> user = userRepository.findByLdap(profile.getId());
         if (user.isPresent()) {
             String firstName = user.get().getFirstName();
             String lastName = user.get().getLastName();
@@ -108,15 +107,15 @@ public class ProfileService {
         List<Skill> skills = skillRepository.findByProfileId(name);
         List<SkillCategory> skillCategories = skillCategoryRepository.findAll();
 
-        Map<String, List<SkillResponse>> skillList =
-                skillCategories.stream().collect(Collectors.toMap(
-                        SkillCategory::getTitle,
-                        Category -> skills.stream()
-                                .filter(skill -> skill.getSkillCategoryId().equals(Category.getId()))
-                                .map(skillMapper::toSkillResponse)
-                                .collect(Collectors.toList())
-                ));
-        profile.setSkillList(skillList);
+//        Map<String, List<SkillResponse>> skillList =
+//                skillCategories.stream().collect(Collectors.toMap(
+//                        SkillCategory::getTitle,
+//                        Category -> skills.stream()
+//                                .filter(skill -> skill.getSkillCategoryId().equals(Category.getId()))
+//                                .map(skillMapper::toSkillResponse)
+//                                .collect(Collectors.toList())
+//                ));
+//        profile.setSkillList(skillList);
 
         return profileMapper.toMyProfileResponse(profile);
     }

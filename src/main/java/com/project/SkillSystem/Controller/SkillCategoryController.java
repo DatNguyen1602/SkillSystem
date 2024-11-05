@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class SkillCategoryController {
     SkillCategoryService skillCategoryService;
 
-    @PostMapping("/add")
-    ApiResponse<SkillCategoryResponse> createSkillCategory(@RequestBody @Valid SkillCategoryRequest skillCategoryRequest) {
-        return ApiResponse.<SkillCategoryResponse>builder()
-                .result(skillCategoryService.createSkillCategory(skillCategoryRequest))
-                .build();
-    }
+//    @PostMapping("/add")
+//    ApiResponse<SkillCategoryResponse> createSkillCategory(@RequestBody @Valid SkillCategoryRequest skillCategoryRequest) {
+//        return ApiResponse.<SkillCategoryResponse>builder()
+//                .result(skillCategoryService.createSkillCategory(skillCategoryRequest))
+//                .build();
+//    }
 
     @DeleteMapping("/delete/{id}")
     ApiResponse<String> deleteSkillCategory(@PathVariable Long id) {

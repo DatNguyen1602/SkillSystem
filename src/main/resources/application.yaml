@@ -1,5 +1,5 @@
 server:
-  port: 1234
+  port: 8080
 
 spring:
   datasource:
@@ -13,3 +13,10 @@ spring:
 
 jwt:
   signerKey: "Mt9ot83HH0WQPSxFfFN1tMRSYaPe7mFbq5mqZEMVgpubEZo6TjRNeXseLlLxUbhM"
+
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /v2/api-docs

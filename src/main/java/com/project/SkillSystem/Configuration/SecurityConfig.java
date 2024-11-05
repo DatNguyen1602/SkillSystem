@@ -24,11 +24,18 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {
       "/users/add",
-      "/auth/log-in"
+      "/auth/log-in",
+      "/swagger-ui/**",               // Cho phép Swagger UI
+      "/v2/api-docs",                 // Tài liệu Swagger JSON
+      "/swagger-resources/**",        // Tài nguyên Swagger
+      "/swagger-ui.html",             // Trang chính của Swagger
+      "/webjars/**",
+            "/swagger-ui/index.html/"
     };
 
     @Value("$(jwt.signerKey")
     private String signerKey;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -63,4 +70,5 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
+
 }

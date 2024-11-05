@@ -34,7 +34,7 @@ public class AuthenticationService {
     protected String SIGNER_KEY;
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-        var user = userRepository.findbyLdap(authenticationRequest.getLdap())
+        var user = userRepository.findByLdap(authenticationRequest.getLdap())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
